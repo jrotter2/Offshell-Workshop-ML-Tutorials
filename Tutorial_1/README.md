@@ -83,6 +83,7 @@ input_var_transposed  = [ [pt1, mass1, eta1],
                           [pt3, mass3, eta3],
                           [pt4, mass4, eta4], ...]
 ```
+```
 ### Reading Root Files and Filling X, Y, W
 
 for sample_name, sample in INPUT_FILES_INFO.items():
