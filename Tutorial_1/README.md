@@ -101,11 +101,13 @@ for sample_name, sample in INPUT_FILES_INFO.items():
 ```
 
 ## Defining the Keras Model
+
+<details><summary>
+
 We can create our NN model using Keras. In a function, here called `baseline_model`, we can set how many layers we want, how many nodes in each layer, the type of layer, each layers activiation function, and the model's loss function, optimizer algorithm, and metrics.
 
-Then we can split our data into two orthogonal sets of Training and Testing sets. 
+</summary>
 
-Finally, we can define the `estimator` and perform the fit to the training set. This is also where we can change many of the hyper-parameters of the training such as the number of epochs, batch size, and early stopping algorithms. 
 ```
 ### Defining Baseline Model
 
@@ -117,7 +119,13 @@ def baseline_model():
     # Compile model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'], weighted_metrics=[tf.keras.losses.categorical_crossentropy])
     return model
+```
+</details>
 
+Then we can split our data into two orthogonal sets of Training and Testing sets.
+
+Finally, we can define the `estimator` and perform the fit to the training set. This is also where we can change many of the hyper-parameters of the training such as the number of epochs, batch size, and early stopping algorithms. 
+```
 ### Splitting into Training and Testing Sets
 X_train, X_test, Y_train, Y_test, W_train, W_test = train_test_split(X, Y, W, test_size=.5, random_state=123)
 
