@@ -103,11 +103,9 @@ for sample_name, sample in INPUT_FILES_INFO.items():
 
 ## Defining the Keras Model
 
-<details><summary>
 
 We can create our NN model using Keras. In a function, here called `baseline_model`, we can set how many layers we want, how many nodes in each layer, the type of layer, each layers activiation function, and the model's loss function, optimizer algorithm, and metrics.
 
-</summary>
 
 ```
 ### Defining Baseline Model
@@ -121,7 +119,6 @@ def baseline_model():
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'], weighted_metrics=[tf.keras.losses.categorical_crossentropy])
     return model
 ```
-</details>
 
 Then we can split our data into two orthogonal sets of Training and Testing sets.
 
