@@ -1,18 +1,9 @@
-# Tutorial 1 - Introduction to Classifier NN
-This tutorial is developed for the Offshell Workshop - Tuesday 14:05-15:05.
 
-[Introduction Slides](https://indico.cern.ch/event/1375252/timetable/#16-machine-learning)
 
-## Getting Setup
+#################
+#### IMPORTS ####
+#################
 
-```
-cd Tutorial_1
-```
-
-## Imports
-The first step is to import the packages we will need to create the NN.
-
-```
 # General Utilities
 import math
 import random
@@ -39,11 +30,15 @@ import matplotlib
 from matplotlib.backends.backend_pdf import PdfPages
 import seaborn as sns
 import matplotlib.pyplot as plt
-```
 
-## Initializing Variables
-We also need to initialize some variables we want to use in our script.
-```
+
+
+
+
+######################
+#### INITIALIZING ####
+######################
+
 ### Initializing Input File Information
 
 INPUT_FILES_INFO = {}
@@ -58,31 +53,24 @@ INPUT_FILES_INFO["sig"] =  {"fname" : "../rootfiles/sig_Events.root",
                             "encoding" : [0,0,1],
                             "label" : "SIGNAL"}
 
-## Initializing Input Variable Information
+### Initializing Input Variable Information
 
 INPUT_VAR_NAMES = ["pt", "mass", "eta"]
 
 ### Initializing empty X, Y, W
 
-X = []
+X = [] 
 Y = []
 W = []
-```
 
-## Reading Root Files using Uproot
-We will be using Uproot to read our input root files. Uproot is very useful because it makes the interface with ML tools much easier since branches are converted to numpy arrays. This makes the process of reading in our data very straight forward - we can simply loop through each file and pulling the input variables directly. One thing to be mindful of is that we need our `X` array to be in the proper format, so it should be that each element in the 2D array should correspond to the input layer but when we get these variables our of the root file using `f["tree/" + var].array()` each element will be for a given variable. Thus, we will need to take the transpose of the `input_var` array. 
 
-Example:
-```
-input_var_directly = [ [pt1, pt2, pt3, pt4 ...],
-                       [mass1, mass2, mass3, mass4 ...]
-                       [eta1, eta2, eta3, eta4 ...] ]
 
-input_var_transposed  = [ [pt1, mass1, eta1],
-                          [pt2, mass2, eta2],
-                          [pt3, mass3, eta3],
-                          [pt4, mass4, eta4], ...]
-```
+
+
+#######################
+#### READING FILES ####
+#######################
+
 ### Reading Root Files and Filling X, Y, W
 
 for sample_name, sample in INPUT_FILES_INFO.items():
@@ -98,15 +86,14 @@ for sample_name, sample in INPUT_FILES_INFO.items():
         Y = [sample["encoding"]]*len(input_vars[0])
         W = [1]*len(input_vars[0])
 
-```
 
-## Defining the Keras Model
-We can create our NN model using Keras. In a function, here called `baseline_model`, we can set how many layers we want, how many nodes in each layer, the type of layer, each layers activiation function, and the model's loss function, optimizer algorithm, and metrics.
 
-Then we can split our data into two orthogonal sets of Training and Testing sets. 
 
-Finally, we can define the `estimator` and perform the fit to the training set. This is also where we can change many of the hyper-parameters of the training such as the number of epochs, batch size, and early stopping algorithms. 
-```
+
+############################
+#### CREATING DNN MODEL ####
+############################
+
 ### Defining Baseline Model
 
 def baseline_model():
@@ -125,11 +112,15 @@ X_train, X_test, Y_train, Y_test, W_train, W_test = train_test_split(X, Y, W, te
 ### Defining our Keras Model
 estimator = KerasClassifier(build_fn=baseline_model, epochs=200, batch_size=512, validation_split=0.35, verbose=1, shuffle=True)
 history = estimator.fit(np.array(X_train),np.array(Y_train), sample_weight=np.array(W_train), callbacks=[tf.keras.callbacks.EarlyStopping(monitor='val_loss',patience=30,verbose=1)])
-``` 
 
-## Plotting Loss and Accuracy
-It is always important to plot the loss and accuracy of the training and validation sets to look for indications of training errors or overtraining. 
-```
+
+
+
+
+##############################
+#### PLOTTING PERFORMANCE ####
+##############################
+
 pdf_pages = PdfPages("./dnn_history_tutorial1.pdf")
 fig, ax = plt.subplots(1)
 fig.suptitle("Model Accuracy")
@@ -152,12 +143,15 @@ fig2.set_size_inches(6,6)
 
 pdf_pages.savefig(fig)
 pdf_pages.savefig(fig2)
-```
 
-## Confusion Matrix
-The confusion matrix is an easy way to view the performance of a classifier NN and is often a good way to look for ways to improve the NN. By looking at where the NN gets confused most often, it can indicate that additional variables are needed or that some samples are weighted incorrectly.
-```
-# Useless function added here to simplify some code
+
+
+
+
+############################
+#### PLOTTING CONFUSION ####
+############################
+
 def convert_onehot(Y_to_convert):
     Y_cat = []
     for i in range(0, len(Y_to_convert)):
@@ -165,6 +159,7 @@ def convert_onehot(Y_to_convert):
             if(Y_to_convert[i][j] == 1):
                 Y_cat.append(j)
     return Y_cat
+
 
 predictions = estimator.predict(np.array(X_test))
 
@@ -192,13 +187,15 @@ ax3.set_ylabel("True")
 plt.tight_layout()
 fig3.set_size_inches(6,6)
 pdf_pages.savefig(fig3)
-```
 
-## Plotting Score Distributions
-The final step in this tutorial is to plot the distributions of scores. For each event we will get an output layer that has as many values as we put in our final layer (in our case that is 3 since we have 3 categories). Since we know the true category each event should be in we can plot the distribution of scores for a given category for each of the true category. This essentially displays the same information that the confusion matrix shows but in more detail. If the NN scores are to be used with a threshold instead of using the maximum value, it is also important to make these plots. 
 
-Finally, if the same plots are created for the training set, one could perform the KS test between the test and training sets to ensure that the NN was not overtrained.
-```
+
+
+
+#############################
+#### PLOTTING DNN SCORES ####
+#############################
+
 softmax_outputs = estimator.model.predict(np.array(X_test))
 Y_true_cat = np.array(convert_onehot(Y_test))
 
@@ -266,5 +263,6 @@ pdf_pages.savefig(fig6)
 
 
 pdf_pages.close()
-```
+
+
 

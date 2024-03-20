@@ -1,0 +1,9 @@
+matplotlib
+scikit-learn
+awkward1
+numpy
+scipy
+uproot
+tqdm
+seaborn
+
