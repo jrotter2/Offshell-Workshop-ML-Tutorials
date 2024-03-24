@@ -7,3 +7,11 @@ uproot
 tqdm
 seaborn
 
+xgboost
+pandas
+sklearn
+
+tensorflow==2.12.0
+keras==2.12.0
+
+

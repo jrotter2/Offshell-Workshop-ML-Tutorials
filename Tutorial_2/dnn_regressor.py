@@ -93,9 +93,6 @@ X_train, X_test, Y_train, Y_test, W_train, W_test = train_test_split(X, Y, W, te
 estimator = KerasRegressor(build_fn=baseline_model, epochs=200, batch_size=128, verbose=1)
 estimator.fit(np.array(X_train), np.array(Y_train))
 
-#kfold = KFold(n_splits=3)`
-#results = cross_val_score(estimator, np.array(X_train), np.array(Y_train), cv=kfold) #, scoring='neg_mean_squared_error')
-#print("Baseline: %.2f (%.2f) MSE" % (results.mean(), results.std()))
 
 
 #############################
