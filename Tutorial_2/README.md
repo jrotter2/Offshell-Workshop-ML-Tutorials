@@ -7,7 +7,7 @@ This tutorial is developed for the Offshell Workshop - Wednesday 15:00-16:00.
 ## Getting Setup
 
 ```
-cd Tutorial_1
+cd Tutorial_2
 ```
 
 ## Imports
