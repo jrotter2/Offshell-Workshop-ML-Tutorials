@@ -133,7 +133,7 @@ X_train, X_test, Y_train, Y_test, W_train, W_test = train_test_split(X, Y, W, te
 
 
 ### Defining our Keras Model
-estimator = KerasClassifier(build_fn=baseline_model, epochs=200, batch_size=512, validation_split=0.35, verbose=1, shuffle=True)
+estimator = KerasClassifier(build_fn=baseline_model, epochs=200, batch_size=32, validation_split=0.35, verbose=1, shuffle=True)
 history = estimator.fit(np.array(X_train),np.array(Y_train), sample_weight=np.array(W_train), callbacks=[tf.keras.callbacks.EarlyStopping(monitor='val_loss',patience=30,verbose=1)])
 ```
 
@@ -290,5 +290,26 @@ We can attempt to simulate overtraining the NN by changing our model's hyperpara
 
 We can also see what happens  when we weight each class different.
 
-Modify the 
+**Modify the event weights from for loop that reads the root files using the example below.**
+
+```
+
+for sample_name, sample in INPUT_FILES_INFO.items():
+    f = uproot.open(sample["fname"])
+    input_vars = [f["tree/" + var].array() for var in INPUT_VAR_NAMES]
+
+    w = 1
+    if(sample["label"] is "BKG 1"):
+        w = 10
+
+    if(len(X) > 0):
+        X = np.concatenate((X, np.transpose(input_vars)), axis=0)
+        Y = np.concatenate((Y, [sample["encoding"]]*len(input_vars[0])), axis=0)
+        W = np.concatenate((W, [w]*len(input_vars[0])),axis=0)
+    else:
+        X = np.transpose(input_vars)
+        Y = [sample["encoding"]]*len(input_vars[0])
+        W = [w]*len(input_vars[0])
+
+```
 
