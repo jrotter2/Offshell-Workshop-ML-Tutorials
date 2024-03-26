@@ -109,7 +109,7 @@ We can create our NN model using Keras. In a function, here called `baseline_mod
 
 To add layers to the model we simply call `model.add()`. For the first layer, we need to add an argument `input_dim=len(INPUT_VAR_NAMES)`.
 
-** Try to use the example below to modify dnn_classifier.py **
+**Try to use the example below to modify dnn_classifier.py**
 
 ```
 ### Defining Baseline Model
@@ -282,9 +282,9 @@ pdf_pages.close()
 
 We can attempt to simulate overtraining the NN by changing our model's hyperparameters. 
 
-** Try to add too many nodes to each layer in dnn_classifier.py **
+**Try to add too many nodes to each layer in dnn_classifier.py**
 
-** Try to add too many layers in dnn_classifier.py **
+**Try to add too many layers in dnn_classifier.py**
 
 ## Event Weighting
 
