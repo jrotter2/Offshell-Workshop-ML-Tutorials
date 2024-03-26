@@ -5,12 +5,12 @@ Tutorials for the Offshell Workshop @ LPC.
 
 To setup your working environment for this tutorial:
 ```
+cmsrel CMSSW_14_0_0
+cd CMSSW_14_0_0/src
+cmsenv
+
 git clone git@github.com:jrotter2/Offshell-Workshop-ML-Tutorials.git
 cd Offshell-Workshop-ML-Tutorials
-
-# This may be required based on your env
-pip install --upgrade setuptools --user
-pip install -r requirements.txt --user
 ```
 
 ## Tutorials
