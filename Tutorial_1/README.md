@@ -83,6 +83,7 @@ input_var_transposed  = [ [pt1, mass1, eta1],
                           [pt3, mass3, eta3],
                           [pt4, mass4, eta4], ...]
 ```
+
 ```
 ### Reading Root Files and Filling X, Y, W
 
@@ -106,6 +107,9 @@ for sample_name, sample in INPUT_FILES_INFO.items():
 
 We can create our NN model using Keras. In a function, here called `baseline_model`, we can set how many layers we want, how many nodes in each layer, the type of layer, each layers activiation function, and the model's loss function, optimizer algorithm, and metrics.
 
+To add layers to the model we simply call `model.add()`. For the first layer, we need to add an argument `input_dim=len(INPUT_VAR_NAMES)`.
+
+** Try to use the example below to modify dnn_classifier.py **
 
 ```
 ### Defining Baseline Model
@@ -131,7 +135,7 @@ X_train, X_test, Y_train, Y_test, W_train, W_test = train_test_split(X, Y, W, te
 ### Defining our Keras Model
 estimator = KerasClassifier(build_fn=baseline_model, epochs=200, batch_size=512, validation_split=0.35, verbose=1, shuffle=True)
 history = estimator.fit(np.array(X_train),np.array(Y_train), sample_weight=np.array(W_train), callbacks=[tf.keras.callbacks.EarlyStopping(monitor='val_loss',patience=30,verbose=1)])
-``` 
+```
 
 ## Plotting Loss and Accuracy
 It is always important to plot the loss and accuracy of the training and validation sets to look for indications of training errors or overtraining. 
@@ -273,4 +277,18 @@ pdf_pages.savefig(fig6)
 
 pdf_pages.close()
 ```
+
+## Overtraining
+
+We can attempt to simulate overtraining the NN by changing our model's hyperparameters. 
+
+** Try to add too many nodes to each layer in dnn_classifier.py **
+
+** Try to add too many layers in dnn_classifier.py **
+
+## Event Weighting
+
+We can also see what happens  when we weight each class different.
+
+Modify the 
 
